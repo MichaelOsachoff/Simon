@@ -23,7 +23,7 @@ void intializeButtons(){
 
 void generateNotes(){
   for(int i = 0; i < MAX_NOTES; i++){
-    generatedNotes[i] = notes[random(3)];
+    generatedNotes[i] = notes[random(4)];
   }
 }
 
@@ -57,6 +57,7 @@ bool retrieveAndVerifyButtonPresses(int numNotes){
 
     // Once at least one button pressed
     if(a4buttonState == LOW || a5buttonState == LOW || a6buttonState == LOW || a7buttonState == LOW){
+
       //Ensure no more than one button is pressed at a time
       for(int i = 0; i < 4; i++){
         for(int j = i + 1; j < 4; j++){
@@ -66,31 +67,26 @@ bool retrieveAndVerifyButtonPresses(int numNotes){
         }
       }
 
-      // Check which button Pressed
-      if(a4buttonState == LOW) {
-        buttonPresses[numButtonPresses] = notes[0];
+      //Track and replay pressed button sound
+      for(int i = 0; i < 4; i++){
+        if(buttonReads[i] == LOW){
+          buttonPresses[numButtonPresses] = notes[i];
+          CircuitPlayground.playTone(notes[i],300);
+        }
       }
-      if(a5buttonState == LOW){
-        buttonPresses[numButtonPresses] = notes[1];
-      }
-      if(a6buttonState == LOW){
-        buttonPresses[numButtonPresses] = notes[2];
-      }
-      if(a7buttonState == LOW){
-        buttonPresses[numButtonPresses] = notes[3];
-      }
-      numButtonPresses++;
-      
-      delay(500);
-    }
-  }
 
-  // Check for incorrect button presses
-  for(int i = 0; i < numNotes; i++){
-    if(buttonPresses[i] != generatedNotes[i])
-    {
-      return false;
+      numButtonPresses++;
+
+      // Check for incorrect button presses
+      for(int i = 0; i < numButtonPresses; i++){
+        if(buttonPresses[i] != generatedNotes[i])
+        {
+          return false;
+        }
+      }
+
     }
+
   }
 
   // All presses must be correct at this point
@@ -138,7 +134,7 @@ void loop() {
       }
       else{
         currentNoteCount++;
-        delay(200);
+        delay(500);
       }
     }
     else{

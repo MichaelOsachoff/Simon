@@ -26,3 +26,13 @@ B2♭
 [A major chord table](https://en.wikipedia.org/wiki/Major_chord#Major_chord_table)
 
 [Augmented A major chord table](https://en.wikipedia.org/wiki/Augmented_triad#Augmented_chord_table)
+
+## Version Notes
+v0.0.1:
+- Initial commit
+
+v0.0.2
+- Added sound playback on button presses
+- Checks for incorrect presses after each note instead of at the end of round
+- General code and "quality of life" timing improvements
+- Fixed bug where highest note would not be generated
